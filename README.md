@@ -25,3 +25,10 @@ Generating a Message-ID seems trivial until you need them to be globally unique 
 ## Edge Cases
 
 The domain validation is strict. It rejects IP addresses (e.g., `192.168.1.1`) and single-label hostnames (e.g., `localhost`). If you need to use an IP literal, you must wrap it in brackets yourself, though this library will not generate such IDs. The domain must contain at least one dot and use valid characters only.
+
+## Performance
+
+The window keeps a bounded buffer, so `push` is constant time and memory does not
+grow with the length of the stream. `peak` and `trough` are linear in the window
+size, which is the trade that keeps `push` cheap.
+
